@@ -6,9 +6,10 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
+import { BookmarkState } from './store/reducers/bookmark.reducer';
 
-export interface State {
-
+export interface AppState {
+  bookmarks: BookmarkState
 }
 
 export const reducers: ActionReducerMap<State> = {
