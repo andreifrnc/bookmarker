@@ -1,22 +1,32 @@
-import { createReducer, on } from "@ngrx/store"
-import { getBookmarksList } from "../actions/bookmark.actions"
-
-export interface BookmarkState {
-  bookmarks: BookmarkInterface[]
-}
+import { createReducer, on } from '@ngrx/store';
+import {
+  getBookmarksList,
+  loadBookmarksListSuccess,
+} from '../actions/bookmark.actions';
+// import { addTodo, loadTodosFailure, loadTodosSuccess, removeTodo } from '../actions/bookmark.actions';
 
 export interface BookmarkInterface {
-  link: string,
-  name: string,
+  name: string;
+  link: string;
 }
 
-export const initialState: BookmarkState = {
-  bookmarks: []
+export interface BookmarksState {
+  bookmarks: BookmarkInterface[];
 }
 
-export const bookmarkReducer = createReducer(
+export const initialState: BookmarksState = {
+  bookmarks: [],
+};
+
+export const bookmarksReducer = createReducer(
+  // Supply the initial state
   initialState,
-  on(getBookmarksList, (state: any) => ({
-    ...state
-  }))
-)
+  on(loadBookmarksListSuccess, (state, { bookmarks }) => {
+    console.log('reducer', bookmarks);
+
+    return {
+      ...state,
+      bookmarks: bookmarks,
+    };
+  })
+);

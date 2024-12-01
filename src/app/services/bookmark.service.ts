@@ -11,6 +11,7 @@ export class BookmarkService {
   constructor(private http: HttpClient) { }
 
   getBookmarksList(){
+    console.log('service')
     return this.http.get<any[]>(this.itemsUrl);
 }
 }

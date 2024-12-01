@@ -2,11 +2,10 @@
   <span>Bookmarker</span>
 
   <div class="search-container">
-    <input type="text">
+    <input type="text" />
   </div>
 
   <span>Add bookmark</span>
 </mat-toolbar>
-<div class="content">
-
-</div>
+{{ bookmarksList$ | async | json }}
+<div *ngFor="let a of bookmarksList$ | async"></div>

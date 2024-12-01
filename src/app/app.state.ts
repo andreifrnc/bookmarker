@@ -1,20 +1,5 @@
-import { isDevMode } from '@angular/core';
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer
-} from '@ngrx/store';
-import { BookmarkState } from './store/reducers/bookmark.reducer';
+import { BookmarksState } from './store/reducers/bookmark.reducer';
 
 export interface AppState {
-  bookmarks: BookmarkState
+  bookmarks: BookmarksState;
 }
-
-export const reducers: ActionReducerMap<State> = {
-
-};
-
-
-export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];

@@ -6,18 +6,23 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './app.state';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './services/data-service/in-memory-data.service';
-import { HttpClient, HttpClientModule, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import {
+  HttpClient,
+  HttpClientModule,
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BookmarkDetailsComponent } from './components/bookmark-details/bookmark-details.component';
+import { bookmarksReducer } from './store/reducers/bookmark.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { BookmarksEffects } from './store/effects/bookmark.effects';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-
-   ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,14 +30,13 @@ import { BookmarkDetailsComponent } from './components/bookmark-details/bookmark
     MatSlideToggleModule,
     MatToolbarModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    ),
-    StoreModule.forRoot(reducers, {
-      metaReducers
-    })
+    EffectsModule.forRoot([BookmarksEffects]),
+    StoreModule.forRoot({ bookmarks: bookmarksReducer }),
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
+      dataEncapsulation: false,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

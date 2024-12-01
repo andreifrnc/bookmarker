@@ -1,4 +1,13 @@
-import { AppState } from "src/app/app.state";
-import { BookmarkState } from "../reducers/bookmark.reducer";
+import { createSelector } from '@ngrx/store';
+import { AppState } from 'src/app/app.state';
+import { BookmarksState } from '../reducers/bookmark.reducer';
 
-export const selectBookmarksList = (state: AppState) => state.bookmarks
+export const selectBookmarks = (state: AppState) => {
+  console.log(state)
+  return state.bookmarks};
+export const selectBookmarksList = createSelector(
+  selectBookmarks,
+  (state: BookmarksState) => {
+    console.log(state)
+    return state.bookmarks}
+);
