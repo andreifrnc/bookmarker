@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getBookmarksList, searchBookmark } from './store/actions/bookmark.actions';
-import { selectBookmarksList } from './store/selectors/bookmark.selector';
+import { searchBookmark } from './store/actions/bookmark.actions';
 import { FormControl } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, filter, Observable, of, switchMap } from 'rxjs';
 
@@ -12,8 +11,7 @@ import { catchError, debounceTime, distinctUntilChanged, EMPTY, filter, Observab
   standalone: false,
 })
 export class AppComponent implements OnInit {
-  title = 'bookmarker';
-
+    title = 'bookmarker';
   searchInput = new FormControl('');
 
   private store = inject(Store);

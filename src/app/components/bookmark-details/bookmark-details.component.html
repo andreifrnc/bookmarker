@@ -4,8 +4,14 @@
       <mat-card-content>
         <div class="details">
           <div class="header-container">
-            <h3 class="title">Create new bookmark</h3>
-            <h4 class="sub-title">Type bookmark name and URL</h4>
+            <ng-container *ngIf="!bookmarkId">
+              <h3 class="title">Create new bookmark</h3>
+              <h4 class="sub-title">Type bookmark name and URL</h4>
+            </ng-container>
+            <ng-container *ngIf="bookmarkId">
+              <h3 class="title">Edit bookmark</h3>
+              <h4 class="sub-title">Add new values</h4>
+            </ng-container>
             <i class="material-icons">bookmark</i>
           </div>
           <div class="form-container">
@@ -26,8 +32,12 @@
         </div>
       </mat-card-content>
       <mat-card-actions>
-        <button *ngIf="!bookmarkId " mat-button (click)="addBookmark()">Save</button>
-        <button *ngIf="bookmarkId " mat-button (click)="editBookmark()">Edit</button>
+        <button *ngIf="!bookmarkId" mat-button (click)="addBookmark()">
+          Create
+        </button>
+        <button *ngIf="bookmarkId" mat-button (click)="editBookmark()">
+          Save
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

@@ -2,12 +2,13 @@
   <i class="material-icons">bookmark</i>
   <div class="bookmark-details">
     <p>{{ bookmark.name }}</p>
-    <p>{{ bookmark.link }}</p>
+    <a
+      [href]="bookmark.link"
+      target="_blank"
+      rel="noopener noreferrer"
+      (click)="$event.stopPropagation()"
+      >{{ bookmark.link }}</a
+    >
   </div>
-  <span class="button-link">
-    <i
-      class="material-icons"
-      >create</i
-    ></span
-  >
+  <span class="button-link"> <i class="material-icons">create</i></span>
 </div>

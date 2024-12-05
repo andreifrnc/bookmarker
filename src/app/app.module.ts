@@ -9,19 +9,13 @@ import { StoreModule } from '@ngrx/store';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './services/data-service/in-memory-data.service';
 import {
-  HttpClient,
   HttpClientModule,
-  provideHttpClient,
-  withFetch,
-  withInterceptorsFromDi,
 } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BookmarkDetailsComponent } from './components/bookmark-details/bookmark-details.component';
 import { bookmarksReducer } from './store/reducers/bookmark.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { BookmarksEffects } from './store/effects/bookmark.effects';
 import { BookmarkCardComponent } from "./components/bookmark-card/bookmark-card.component";
-import { RouterLink, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 

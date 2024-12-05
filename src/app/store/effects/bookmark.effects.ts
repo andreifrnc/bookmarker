@@ -1,13 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-
-import { of, from } from 'rxjs';
 import {
   switchMap,
   map,
-  catchError,
-  withLatestFrom,
-  exhaustMap,
   mergeMap,
   tap,
 } from 'rxjs/operators';
@@ -24,14 +19,15 @@ import {
   searchBookmark,
 } from '../actions/bookmark.actions';
 import { BookmarkInterface } from '../reducers/bookmark.reducer';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class BookmarksEffects {
   private router = inject(Router);
+  private bookmarkService = inject(BookmarkService)
+  private actions$ =inject(Actions)
   constructor(
-    private actions$: Actions,
-    private bookmarkService: BookmarkService
+
   ) {}
 
   getBookmarksList$ = createEffect(() =>

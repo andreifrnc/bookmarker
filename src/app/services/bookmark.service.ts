@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { BookmarkInterface } from '../store/reducers/bookmark.reducer';
 
 @Injectable({
 providedIn: 'root',
 })
 export class BookmarkService {
-  private itemsUrl = 'api/bookmarks'; // URL to web api
+  private itemsUrl = 'api/bookmarks';
 
   constructor(private http: HttpClient) {}
 
