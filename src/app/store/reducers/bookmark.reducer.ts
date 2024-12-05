@@ -28,7 +28,6 @@ export const bookmarksReducer = createReducer(
   // Supply the initial state
   initialState,
   on(loadBookmarksListSuccess, (state, { bookmarks }) => {
-    console.log(bookmarks)
     return {
       ...state,
       bookmarks: bookmarks,

@@ -32,9 +32,7 @@ export class InMemoryDataService implements InMemoryDbService {
       }
 
       if (reqInfo.id) {
-        const bookmark = bookmarks.find(
-          (item: any) => item.id === reqInfo.id
-        );
+        const bookmark = bookmarks.find((item: any) => item.id === reqInfo.id);
         return reqInfo.utils.createResponse$(() => ({
           body: bookmark || {
             error: `Bookmark with id ${reqInfo.id} not found`,
@@ -48,16 +46,13 @@ export class InMemoryDataService implements InMemoryDbService {
         status: 200,
       }));
     }
-
     return of();
   }
 
   post(reqInfo: any): Observable<any> {
     if (reqInfo.collectionName === 'bookmarks') {
-      console.log('POST /bookmarks called:', reqInfo);
-
       let bookmarks = reqInfo.collection;
-      let maxId = bookmarks.reduce(
+      let maxId = this.items.reduce(
         (max: any, item: any) => Math.max(max, parseInt(item.id, 10)),
         0
       );
@@ -66,9 +61,7 @@ export class InMemoryDataService implements InMemoryDbService {
       let newBookmark = Object.assign({}, bookmarkData, {
         id: JSON.stringify(maxId + 1),
       });
-      this.items = [...this.items, newBookmark  ]
-      //last
-      // bookmarks.push(newBookmark);
+      this.items = [...this.items, newBookmark];
       return reqInfo.utils.createResponse$(() => ({
         body: bookmarks,
         status: 200,
@@ -78,9 +71,7 @@ export class InMemoryDataService implements InMemoryDbService {
   }
 
   put(reqInfo: any): Observable<any> {
-    console.log(reqInfo);
     if (reqInfo.collectionName === 'bookmarks') {
-
       let bookmarks = this.items;
       let bookmarkId = reqInfo.id;
       let newBookmarkData = Object.assign({}, reqInfo.req.body, {

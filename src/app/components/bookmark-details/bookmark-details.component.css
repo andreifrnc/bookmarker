@@ -34,11 +34,11 @@
     gap: 10px;
 
     :first-child {
-      flex: 1; /* Shrinks this element */
+      flex: 1;
     }
 
     > :not(:first-child) {
-      flex: 2; /* Makes the other elements take more space */
+      flex: 2;
     }
     .form-field {
       width: 100%;
