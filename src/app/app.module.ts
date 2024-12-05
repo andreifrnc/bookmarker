@@ -20,6 +20,10 @@ import { BookmarkDetailsComponent } from './components/bookmark-details/bookmark
 import { bookmarksReducer } from './store/reducers/bookmark.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { BookmarksEffects } from './store/effects/bookmark.effects';
+import { BookmarkCardComponent } from "./components/bookmark-card/bookmark-card.component";
+import { RouterLink, RouterModule } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,13 +33,16 @@ import { BookmarksEffects } from './store/effects/bookmark.effects';
     BrowserAnimationsModule,
     MatSlideToggleModule,
     MatToolbarModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
     HttpClientModule,
     EffectsModule.forRoot([BookmarksEffects]),
     StoreModule.forRoot({ bookmarks: bookmarksReducer }),
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
-      dataEncapsulation: false,
+        dataEncapsulation: false,
     }),
-  ],
+    BookmarkCardComponent
+],
   providers: [],
   bootstrap: [AppComponent],
 })

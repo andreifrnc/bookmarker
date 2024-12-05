@@ -1,0 +1,6 @@
+{{(bookmarksList$ | async) | json }}
+<div class="container">
+  <ng-container *ngFor="let bookmark of bookmarksList$ | async">
+    <app-bookmark-card [bookmark]="bookmark"></app-bookmark-card>
+  </ng-container>
+</div>

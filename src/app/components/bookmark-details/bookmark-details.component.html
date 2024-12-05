@@ -1,3 +1,34 @@
-<p>
-  bookmark-details works!
-</p>
+<form [formGroup]="bookmarkForm">
+  <div class="container">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div class="details">
+          <div class="header-container">
+            <h3 class="title">Create new bookmark</h3>
+            <h4 class="sub-title">Type bookmark name and URL</h4>
+            <i class="material-icons">bookmark</i>
+          </div>
+          <div class="form-container">
+            <mat-form-field class="form-field">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Google" formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field class="form-field">
+              <mat-label>URL</mat-label>
+              <input
+                matInput
+                placeholder="https://google.com"
+                formControlName="link"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button *ngIf="!bookmarkId " mat-button (click)="addBookmark()">Save</button>
+        <button *ngIf="bookmarkId " mat-button (click)="editBookmark()">Edit</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</form>

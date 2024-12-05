@@ -1,11 +1,12 @@
 <mat-toolbar color="primary" class="toolbar">
-  <span>Bookmarker</span>
+  <span routerLink="/" class="button">Bookmarker</span>
 
   <div class="search-container">
-    <input type="text" />
+    <input matInput placeholder="Google" [formControl]="searchInput" />
   </div>
 
-  <span>Add bookmark</span>
+  <span class="button-link" routerLink="/create">
+    <i class="material-icons">add</i>
+  </span>
 </mat-toolbar>
-{{ bookmarksList$ | async | json }}
-<div *ngFor="let a of bookmarksList$ | async"></div>
+<router-outlet></router-outlet>

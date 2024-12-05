@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { BookmarkInterface } from 'src/app/store/reducers/bookmark.reducer';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InMemoryDataService implements InMemoryDbService {
-  items = [
-    { id: 1, name: 'Item 1' },
-    { id: 2, name: 'Item 2' },
+  items: BookmarkInterface[] = [
+    { link: 'https://angular.dev/', name: 'Angular', id: '1' },
+    { link: 'https://ngrx.io/', name: 'NgRX', id: '2' },
   ];
 
   constructor() {}
@@ -17,72 +18,88 @@ export class InMemoryDataService implements InMemoryDbService {
     return { bookmarks: this.items };
   }
 
-  // CRUD methods
+  get(reqInfo: any): Observable<any> {
+    if (reqInfo.collectionName === 'bookmarks') {
+      const query = reqInfo.query.get('search');
+      let bookmarks = this.items;
 
-  // GET all items
-  getBookmarksList(reqInfo: any): Observable<any> {
-    const items = this.items;
-    return reqInfo.utils.createResponse$(() => ({
-      body: items,
-      status: 200,
-    }));
-  }
+      if (query) {
+        bookmarks = bookmarks.filter((item: any) => {
+          if (item.link.includes(query) || item.name.includes(query)) {
+            return item;
+          }
+        });
+      }
 
-  // GET item by id
-  getBookmark(reqInfo: any): Observable<any> {
-    const id = reqInfo.id;
-    const item = this.items.find((i: any) => i.id === id);
-    return reqInfo.utils.createResponse$(() => ({
-      body: item,
-      status: item ? 200 : 404,
-    }));
-  }
+      if (reqInfo.id) {
+        const bookmark = bookmarks.find(
+          (item: any) => item.id === reqInfo.id
+        );
+        return reqInfo.utils.createResponse$(() => ({
+          body: bookmark || {
+            error: `Bookmark with id ${reqInfo.id} not found`,
+          },
+          status: bookmark ? 200 : 404,
+        }));
+      }
 
-  // POST new item
-  addBookmark(reqInfo: any): Observable<any> {
-    const newItem = reqInfo.utils.getJsonBody(reqInfo.req);
-    newItem.id = this.items.length + 1; // Generate a new id
-    this.items.push(newItem);
-    return reqInfo.utils.createResponse$(() => ({
-      body: newItem,
-      status: 201,
-    }));
-  }
-
-  // PUT updated item
-  updateBookmark(reqInfo: any): Observable<any> {
-    const id = reqInfo.id;
-    const updatedItem = reqInfo.utils.getJsonBody(reqInfo.req);
-    const index = this.items.findIndex((i: any) => i.id === id);
-    if (index !== -1) {
-      this.items[index] = { ...this.items[index], ...updatedItem };
       return reqInfo.utils.createResponse$(() => ({
-        body: this.items[index],
+        body: bookmarks,
         status: 200,
       }));
-    } else {
-      return reqInfo.utils.createResponse$(() => ({
-        body: { error: 'Item not found' },
-        status: 404,
-      }));
     }
+
+    return of();
   }
 
-  // DELETE item
-  deleteBookmark(reqInfo: any): Observable<any> {
-    const id = reqInfo.id;
-    const index = this.items.findIndex((i: any) => i.id === id);
-    if (index !== -1) {
-      const deletedItem = this.items.splice(index, 1)[0];
+  post(reqInfo: any): Observable<any> {
+    if (reqInfo.collectionName === 'bookmarks') {
+      console.log('POST /bookmarks called:', reqInfo);
+
+      let bookmarks = reqInfo.collection;
+      let maxId = bookmarks.reduce(
+        (max: any, item: any) => Math.max(max, parseInt(item.id, 10)),
+        0
+      );
+      let bookmarkData = reqInfo.req.body;
+
+      let newBookmark = Object.assign({}, bookmarkData, {
+        id: JSON.stringify(maxId + 1),
+      });
+      this.items = [...this.items, newBookmark  ]
+      //last
+      // bookmarks.push(newBookmark);
       return reqInfo.utils.createResponse$(() => ({
-        body: deletedItem,
+        body: bookmarks,
         status: 200,
       }));
-    } else {
+    }
+    return of();
+  }
+
+  put(reqInfo: any): Observable<any> {
+    console.log(reqInfo);
+    if (reqInfo.collectionName === 'bookmarks') {
+
+      let bookmarks = this.items;
+      let bookmarkId = reqInfo.id;
+      let newBookmarkData = Object.assign({}, reqInfo.req.body, {
+        id: bookmarkId,
+      });
+
+      this.items = bookmarks.map((bookmark: BookmarkInterface) => {
+        if (bookmark.id === bookmarkId) {
+          bookmark = newBookmarkData;
+          return bookmark;
+        }
+        return bookmark;
+      });
+
       return reqInfo.utils.createResponse$(() => ({
-        body: { error: 'Item not found' },
-        status: 404,
+        body: newBookmarkData,
+        status: 200,
       }));
     }
+    return of();
   }
 }

@@ -1,0 +1,22 @@
+.bookmark-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 500px;
+  margin: 10px;
+
+  &:hover{
+    cursor: pointer;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .bookmark-details {
+    flex: 2;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getBookmarksList } from './store/actions/bookmark.actions';
+import { getBookmarksList, searchBookmark } from './store/actions/bookmark.actions';
 import { selectBookmarksList } from './store/selectors/bookmark.selector';
+import { FormControl } from '@angular/forms';
+import { catchError, debounceTime, distinctUntilChanged, EMPTY, filter, Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +14,22 @@ import { selectBookmarksList } from './store/selectors/bookmark.selector';
 export class AppComponent implements OnInit {
   title = 'bookmarker';
 
-  // TODO create bookmark type
-  bookmarksList$ = this.store.select(selectBookmarksList);
+  searchInput = new FormControl('');
 
-  // use type
-  constructor(private store: Store<any>) {}
+  private store = inject(Store);
 
   ngOnInit(): void {
-    this.store.dispatch(getBookmarksList());
+    this.searchInput.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      catchError(error => {
+        return of(null);
+    }),
+      // @ts-ignore
+      switchMap(bookmarkName =>{
+        return of(this.store.dispatch(searchBookmark({ bookmarkName: bookmarkName as string })));
+      })
+    ).subscribe();
   }
+
 }
